@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -Wall -g
-LDFLAGS =
+LDFLAGS = -lSDL2
 
 SRC_DIR = src
 BUILD_DIR = build
