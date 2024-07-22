@@ -34,3 +34,8 @@
 bin/
 build/
 .vscode/
+.cproject/
+.cproject
+.project/
+.project
+.settings/
