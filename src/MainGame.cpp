@@ -1,5 +1,9 @@
 #include "MainGame.h"
 
+long getTimestamp() {
+	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
 MainGame::MainGame() {
 	_window = nullptr;
 	_screenWidth = 1024;
@@ -14,9 +18,21 @@ MainGame::~MainGame() {
 void MainGame::run() {
 	initSystems();
 
+	int frames = 0;
+	long start = getTimestamp();
+
 	while (_running) {
 		pollEvents();
 		drawGame();
+
+		frames++;
+		long now = getTimestamp();
+		long delta = now - start;
+		if (delta >= 1000) {
+			start = now;
+			std::cout << "FPS: " << frames << std::endl;
+			frames = 0;
+		}
 	}
 }
 
