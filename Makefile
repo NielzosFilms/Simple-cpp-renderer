@@ -1,8 +1,9 @@
 CC = g++
-CFLAGS = -Wall -g
-LDFLAGS = -lSDL2
+CFLAGS = -Wall -g -I$(HEADER_DIR)
+LDFLAGS = -lSDL2 -lGL
 
 SRC_DIR = src
+HEADER_DIR = include
 BUILD_DIR = build
 BIN_DIR = bin
 
