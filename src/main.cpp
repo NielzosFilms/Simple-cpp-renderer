@@ -1,5 +1,5 @@
 #include "iostream"
-#include "../include/MainGame.h"
+#include "MainGame.h"
 
 int main(int argc, char **argv) {
 	std::cout << "simple-cpp-renderer#main()" << std::endl;

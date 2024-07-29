@@ -3,9 +3,14 @@
 #pragma once
 
 #include "SDL2/SDL.h"
-#include "GL/gl.h"
 #include "iostream"
 #include "chrono"
+
+#define GL_GLEXT_PROTOTYPES
+#include "GL/gl.h"
+#include "GL/glext.h"
+
+#include "Quad.h"
 
 class MainGame {
 public:
@@ -18,6 +23,8 @@ private:
 	int _screenWidth;
 	int _screenHeight;
 	bool _running;
+
+	Quad quad;
 
 	void initSystems();
 
