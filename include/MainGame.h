@@ -5,6 +5,12 @@
 #include "SDL2/SDL.h"
 #include "iostream"
 #include "chrono"
+#include "string"
+#include "vector"
+
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
 
 #define GL_GLEXT_PROTOTYPES
 #include "GL/gl.h"
@@ -23,8 +29,12 @@ private:
 	int _screenWidth;
 	int _screenHeight;
 	bool _running;
+	int fps;
+	bool vSync;
+	float x;
 
 	Quad quad;
+	ImVec4 quadColor;
 
 	void initSystems();
 

@@ -1,30 +1,35 @@
-CC = g++
-CFLAGS = -Wall -g -I$(HEADER_DIR)
+CXX = g++
+CXXFLAGS = -Wall -g -Iinclude -Iimgui -Iimgui/backends
 LDFLAGS = -lSDL2 -lGL
 
 SRC_DIR = src
-HEADER_DIR = include
-BUILD_DIR = build
+OBJ_DIR = build
 BIN_DIR = bin
 
-SRCS = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp)
-OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
-EXEC = $(BIN_DIR)/simple-cpp-renderer
+TARGET = $(BIN_DIR)/simple-cpp-renderer
 
-all: $(EXEC)
+SRCS = $(shell find $(SRC_DIR) -name '*.cpp')
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 
-$(EXEC): $(OBJS)
+# Build rules
+all: lib-imgui $(TARGET)
+
+$(TARGET): $(OBJS)
 	mkdir -p $(BIN_DIR)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS) -Limgui -limgui
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+lib-imgui:
+	$(MAKE) -C imgui
 
 clean:
-	rm -f $(OBJS) $(BIN_DIR)/*
+	rm -rf $(OBJS) $(BIN_DIR)/* $(OBJ_DIR)
+	$(MAKE) -C imgui clean
 
 run:
-	$(BIN_DIR)/simple-cpp-renderer
+	$(TARGET)
 
-.PHONY: clean run
+.PHONY: all clean run lib-imgui

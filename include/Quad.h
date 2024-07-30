@@ -15,6 +15,8 @@ public:
 
 	void draw();
 
+	void setX(float x);
+
 private:
 	float x;
 	float y;

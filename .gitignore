@@ -39,3 +39,6 @@ build/
 .project/
 .project
 .settings/
+
+imgui/.github
+*.ini

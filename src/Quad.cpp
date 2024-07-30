@@ -63,3 +63,7 @@ void Quad::draw() {
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+void Quad::setX(float x) {
+	Quad::x = x;
+}
