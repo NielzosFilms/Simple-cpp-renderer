@@ -1,10 +1,12 @@
-#ifndef INCLUDE_QUAD_H_
-#define INCLUDE_QUAD_H_
 #pragma once
 
 #define GL_GLEXT_PROTOTYPES
 #include "GL/gl.h"
 #include "GL/glext.h"
+
+#include "cstddef"
+
+#include "Vertex.h"
 
 class Quad {
 public:
@@ -24,5 +26,3 @@ private:
 	float height;
 	GLuint vboId;
 };
-
-#endif /* INCLUDE_QUAD_H_ */

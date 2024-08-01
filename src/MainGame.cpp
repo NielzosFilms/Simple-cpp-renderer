@@ -20,7 +20,7 @@ MainGame::~MainGame() {
 void MainGame::run() {
 	initSystems();
 
-	quad.init(-0.25, -0.25, 0.5, 0.5);
+	quad.init(-1, -1, 2, 2);
 
 	int frames = 0;
 	long start = getTimestamp();
@@ -84,6 +84,7 @@ void MainGame::initImGui(SDL_GLContext& glContext) {
 void MainGame::initShaders() {
 	colorProgram.compile("shaders/colorShading.vert", "shaders/colorShading.frag");
 	colorProgram.addAttribute("vertexPosition");
+	colorProgram.addAttribute("vertexColor");
 	colorProgram.link();
 }
 
