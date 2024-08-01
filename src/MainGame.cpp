@@ -1,7 +1,8 @@
 #include "MainGame.h"
 
 long getTimestamp() {
-	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	return std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 MainGame::MainGame() {
@@ -10,9 +11,6 @@ MainGame::MainGame() {
 	_screenHeight = 768;
 	_running = true;
 	fps = 0;
-	vSync = true;
-	quadColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	x = -0.25;
 }
 
 MainGame::~MainGame() {
@@ -22,7 +20,7 @@ MainGame::~MainGame() {
 void MainGame::run() {
 	initSystems();
 
-	quad.init(x, -0.25, 0.5, 0.5);
+	quad.init(-0.25, -0.25, 0.5, 0.5);
 
 	int frames = 0;
 	long start = getTimestamp();
@@ -68,17 +66,20 @@ void MainGame::initSystems() {
 	// Setup Dear ImGUI
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+	ImGuiIO &io = ImGui::GetIO();
+	(void) io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
-    ImGui::StyleColorsDark();
+	ImGui::StyleColorsDark();
 
-    ImGui_ImplSDL2_InitForOpenGL(_window, glContext);
+	ImGui_ImplSDL2_InitForOpenGL(_window, glContext);
 	ImGui_ImplOpenGL3_Init("#version 100");
 }
 
 void MainGame::pollEvents() {
+	Settings& settings = Settings::getInstance();
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		ImGui_ImplSDL2_ProcessEvent(&event);
@@ -86,41 +87,51 @@ void MainGame::pollEvents() {
 			case SDL_QUIT:
 				_running = false;
 				break;
+			case SDL_KEYUP:
+				if (event.key.keysym.scancode == SDL_SCANCODE_F4) {
+					settings.debug = !settings.debug;
+				}
+				break;
 		}
 	}
 
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
+	if (settings.debug) {
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplSDL2_NewFrame();
+		ImGui::NewFrame();
 
-	ImGui::Begin("Debug");
-	ImGui::Text("FPS: %d", fps);
+		ImGui::Begin("Debug");
+		ImGui::Text("FPS: %d", fps);
 
-	if (ImGui::Button("Enable V-Sync")) {
-		SDL_GL_SetSwapInterval(1);
+		if (ImGui::Checkbox("Enable V-Sync", &settings.vSync)) {
+			if (settings.vSync) {
+				SDL_GL_SetSwapInterval(1);
+			} else {
+				SDL_GL_SetSwapInterval(0);
+			}
+		}
+
+		ImGui::ColorEdit3("Quad color", (float*) &settings.quadColor);
+
+		ImGui::End();
 	}
-	if (ImGui::Button("Disable V-Sync")) {
-		SDL_GL_SetSwapInterval(0);
-	}
-
-	ImGui::ColorEdit3("Quad color", (float*)&quadColor);
-
-	ImGui::SliderFloat("Quad x", &x, -4.0f, 4.0f);
-	quad.setX(x);
-
-	ImGui::End();
 }
 
 void MainGame::drawGame() {
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	Settings& settings = Settings::getInstance();
 
-	glColor3f(quadColor.x * quadColor.w, quadColor.y * quadColor.w, quadColor.z * quadColor.w);
+	glColor3f(settings.quadColor.x * settings.quadColor.w,
+		settings.quadColor.y * settings.quadColor.w,
+		settings.quadColor.z * settings.quadColor.w);
 
 	quad.draw();
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	if (settings.debug) {
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
 
 	SDL_GL_SwapWindow(_window);
 }

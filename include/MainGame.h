@@ -1,5 +1,3 @@
-#ifndef MAINGAME_H_
-#define MAINGAME_H_
 #pragma once
 
 #include "SDL2/SDL.h"
@@ -17,6 +15,7 @@
 #include "GL/glext.h"
 
 #include "Quad.h"
+#include "Settings.h"
 
 class MainGame {
 public:
@@ -30,11 +29,8 @@ private:
 	int _screenHeight;
 	bool _running;
 	int fps;
-	bool vSync;
-	float x;
 
 	Quad quad;
-	ImVec4 quadColor;
 
 	void initSystems();
 
@@ -42,5 +38,3 @@ private:
 	void drawGame();
 
 };
-
-#endif
