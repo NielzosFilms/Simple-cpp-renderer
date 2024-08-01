@@ -11,6 +11,8 @@ GLSLProgram::~GLSLProgram() {
 
 void GLSLProgram::compile(const std::string &vertexFilePath,
 	const std::string &fragmentFilePath) {
+	programId = glCreateProgram();
+
 	vertexId = glCreateShader(GL_VERTEX_SHADER);
 	if (vertexId == 0) {
 		fatalError("Failed to create vertex shader");
@@ -26,8 +28,6 @@ void GLSLProgram::compile(const std::string &vertexFilePath,
 }
 
 void GLSLProgram::link() {
-	programId = glCreateProgram();
-
 	glAttachShader(programId, vertexId);
 	glAttachShader(programId, fragmentId);
 

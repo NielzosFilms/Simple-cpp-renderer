@@ -6,4 +6,5 @@ void fatalError(std::string msg) {
 	int tmp;
 	std::cin >> tmp;
 	SDL_Quit();
+	exit(69);
 }
