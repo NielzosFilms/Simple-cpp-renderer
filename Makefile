@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -g -Iinclude -Iimgui -Iimgui/backends
-LDFLAGS = -lSDL2 -lGL
+LDFLAGS = -lSDL2 -lGL -lGLEW
 
 SRC_DIR = src
 OBJ_DIR = build

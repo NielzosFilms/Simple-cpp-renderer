@@ -48,22 +48,26 @@ void MainGame::initSystems() {
 		SDL_WINDOW_OPENGL);
 
 	if (_window == nullptr) {
-		std::cout << "Failed to create window" << std::endl;
-		SDL_Quit();
+		fatalError("Failed to create window");
 	}
 
 	SDL_GLContext glContext = SDL_GL_CreateContext(_window);
 	if (glContext == nullptr) {
-		std::cout << "Failed to create SDL_GL context" << std::endl;
-		SDL_Quit();
+		fatalError("Failed to create SDL_GL context");
 	}
+
+	std::cout << glGetString(GL_VERSION);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	// vSync
 	SDL_GL_SetSwapInterval(1);
 	glClearColor(0, 0, 0, 1.0);
 
-	// Setup Dear ImGUI
+	initImGui(glContext);
+	initShaders();
+}
+
+void MainGame::initImGui(SDL_GLContext& glContext) {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO &io = ImGui::GetIO();
@@ -74,7 +78,13 @@ void MainGame::initSystems() {
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplSDL2_InitForOpenGL(_window, glContext);
-	ImGui_ImplOpenGL3_Init("#version 100");
+	ImGui_ImplOpenGL3_Init("#version 400");
+}
+
+void MainGame::initShaders() {
+	colorProgram.compile("shaders/colorShading.vert", "shaders/colorShading.frag");
+	colorProgram.addAttribute("vertexPosition");
+	colorProgram.link();
 }
 
 void MainGame::pollEvents() {
@@ -126,7 +136,9 @@ void MainGame::drawGame() {
 		settings.quadColor.y * settings.quadColor.w,
 		settings.quadColor.z * settings.quadColor.w);
 
+	colorProgram.use();
 	quad.draw();
+	colorProgram.unuse();
 
 	if (settings.debug) {
 		ImGui::Render();

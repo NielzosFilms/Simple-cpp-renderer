@@ -14,8 +14,11 @@
 #include "GL/gl.h"
 #include "GL/glext.h"
 
+#include "Errors.h"
+
 #include "Quad.h"
 #include "Settings.h"
+#include "GLSLProgram.h"
 
 class MainGame {
 public:
@@ -31,8 +34,11 @@ private:
 	int fps;
 
 	Quad quad;
+	GLSLProgram colorProgram;
 
 	void initSystems();
+	void initImGui(SDL_GLContext& glContext);
+	void initShaders();
 
 	void pollEvents();
 	void drawGame();
