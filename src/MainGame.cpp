@@ -148,9 +148,9 @@ void MainGame::drawGame() {
 	Settings &settings = Settings::getInstance();
 
 	colorProgram.use();
-	GLuint timeLocation = colorProgram.getUniformLocation("time");
+	GLint timeLocation = colorProgram.getUniformLocation("time");
 	glUniform1f(timeLocation, time);
-	GLuint fragmentShaderLocation = colorProgram.getUniformLocation("fragmentShader");
+	GLint fragmentShaderLocation = colorProgram.getUniformLocation("fragmentShader");
 	glUniform1i(fragmentShaderLocation, settings.currentFragmentShader);
 	quad.draw();
 	colorProgram.unuse();
