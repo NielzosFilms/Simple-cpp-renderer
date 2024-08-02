@@ -27,11 +27,12 @@ public:
 
 	void run();
 private:
-	SDL_Window* _window;
-	int _screenWidth;
-	int _screenHeight;
-	bool _running;
+	SDL_Window* window;
+	int screenWidth;
+	int screenHeight;
+	bool running;
 	int fps;
+	float time;
 
 	Quad quad;
 	GLSLProgram colorProgram;

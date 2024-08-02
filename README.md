@@ -7,3 +7,6 @@
 ```shell
 sudo apt install libsdl2-2.0-0 libsdl2-dev
 ```
+
+## For testing math equations
+[https://www.wolframalpha.com](https://www.wolframalpha.com)

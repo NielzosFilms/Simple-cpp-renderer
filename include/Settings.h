@@ -13,7 +13,9 @@ public:
 	bool debug;
 	bool vSync;
 
-	ImVec4 quadColor;
+	float timeAdd;
+
+	int currentFragmentShader;
 
 private:
 	Settings();

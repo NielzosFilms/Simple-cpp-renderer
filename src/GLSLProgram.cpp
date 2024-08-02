@@ -60,6 +60,14 @@ void GLSLProgram::addAttribute(const std::string &attrName) {
 	glBindAttribLocation(programId, attrCount++, attrName.c_str());
 }
 
+GLuint GLSLProgram::getUniformLocation(const std::string &name) {
+	GLuint location = glGetUniformLocation(programId, name.c_str());
+	if (location == GL_INVALID_INDEX) {
+		fatalError("Failed to get uniform by name [" + name + "] from shader program");
+	}
+	return location;
+}
+
 void GLSLProgram::use() {
 	glUseProgram(programId);
 	for (int i = 0; i < attrCount; i++) {

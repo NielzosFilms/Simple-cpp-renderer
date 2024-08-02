@@ -22,6 +22,8 @@ public:
 
 	void addAttribute(const std::string &attrName);
 
+	GLuint getUniformLocation(const std::string &name);
+
 	void use();
 	void unuse();
 

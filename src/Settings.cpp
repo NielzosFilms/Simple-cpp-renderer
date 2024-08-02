@@ -5,10 +5,11 @@ Settings& Settings::getInstance() {
 	return settings;
 }
 
-Settings::Settings() {
-	debug = false;
-	vSync = true;
-	quadColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+Settings::Settings() :
+	debug(false),
+		vSync(true),
+		timeAdd(0.01),
+		currentFragmentShader(0) {
 }
 
 Settings::~Settings() {
